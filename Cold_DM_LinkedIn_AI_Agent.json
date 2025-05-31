@@ -1,0 +1,455 @@
+{
+  "name": "dm ai agent",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        280,
+        -100
+      ],
+      "id": "936e7dea-4072-4855-a382-21e2cf85d8c3",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Generate a friendly and direct icebreaker for a personalized event invitation email. The message should:\n1. Be written in an engaging, professional tone\n2. Reference specific details from the person's LinkedIn profile and company\n3. End with \"Figured I'd reach out.\"\n4. Invite them to speak at our upcoming industry event\n5. Within 250 words.\n6. Never include this line: I hope this message finds you well! \n\nHere's information about the recipient:\nFirst name: {{ $('Google Sheets').item.json['First Name'] }}\nCompany description: {{ $('Google Sheets').item.json['Company Description'] }}\nCompany name: {{ $json.COMPANY_Name }}\nJob Title: {{ $('Google Sheets').item.json.Title }}\n\nOur event is an exclusive conference focused on AI and automation innovations in business processes. We're bringing together thought leaders and practitioners to share cutting-edge approaches and successful implementation strategies.\n\nYou have access to a LinkedIn Profile tool. Use this tool to gather additional information about the recipient before writing your message. To use the tool, simply indicate that you want to call the LinkedIn profile tool, then incorporate relevant information from their profile into your message.\n\nFormatting instruction:\nReturn ONLY a JSON object with a single \"icebreaker\" key containing the personalized message.",
+        "hasOutputParser": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        1140,
+        -100
+      ],
+      "id": "bbb44366-1566-4d12-8e1d-db7864a6e9eb",
+      "name": "AI Agent",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\"icebreaker\":\"message\"}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        1380,
+        120
+      ],
+      "id": "b669bf1d-9b16-4e19-b0bd-58e912ee0196",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1lvv24MRD_MqZyKgbFh2OGvaIYmjXPhmHW8LPi5EM2Fk",
+          "mode": "list",
+          "cachedResultName": "Cold Outreach DM",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lvv24MRD_MqZyKgbFh2OGvaIYmjXPhmHW8LPi5EM2Fk/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lvv24MRD_MqZyKgbFh2OGvaIYmjXPhmHW8LPi5EM2Fk/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Linkedin Url": "={{ $('Google Sheets').item.json['Linkedin Url'] }}",
+            "Icebreaker": "={{ $json.output.icebreaker }}"
+          },
+          "matchingColumns": [
+            "Linkedin Url"
+          ],
+          "schema": [
+            {
+              "id": "First Name",
+              "displayName": "First Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Last Name",
+              "displayName": "Last Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Linkedin Url",
+              "displayName": "Linkedin Url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "COMPANY_INDUSTRY",
+              "displayName": "COMPANY_INDUSTRY",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "COMPANY_EMPLOYEE_COUNT",
+              "displayName": "COMPANY_EMPLOYEE_COUNT",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Company Name",
+              "displayName": "Company Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Company Description",
+              "displayName": "Company Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Icebreaker",
+              "displayName": "Icebreaker",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1520,
+        -100
+      ],
+      "id": "887474d0-c5f0-4972-bebb-36e8f7e477bc",
+      "name": "Update Google sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "BABF9fd2GiPmlycd",
+          "name": "Google Sheets Cred"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f75c0843-d5a8-4043-be4f-4f5fcb09b456",
+              "name": "COMPANY_Name",
+              "value": "={{$json['Company Name'].replace(/\\s+Ltd\\.?$/i, '').replace(/(,?\\\\\\\\s*)?(Inc|LLC|Corp|Ltd|Limited|Corporation|Company|Group|Holdings|International|Solutions|Technologies|Enterprises|Partners|Association|PLC|S\\\\\\\\.A\\\\\\\\.|GmbH|Co\\\\\\\\.|Services)\\\\\\\\.?$/i, '').trim()}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        960,
+        -100
+      ],
+      "id": "dc55370a-6a08-4560-9128-3975e3fa3723",
+      "name": "Clean up company"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1lvv24MRD_MqZyKgbFh2OGvaIYmjXPhmHW8LPi5EM2Fk",
+          "mode": "list",
+          "cachedResultName": "Cold Outreach DM",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lvv24MRD_MqZyKgbFh2OGvaIYmjXPhmHW8LPi5EM2Fk/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1lvv24MRD_MqZyKgbFh2OGvaIYmjXPhmHW8LPi5EM2Fk/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        500,
+        -100
+      ],
+      "id": "10e3b58d-ed7f-4750-82d7-db135b3c7aff",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "BABF9fd2GiPmlycd",
+          "name": "Google Sheets Cred"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        720,
+        -100
+      ],
+      "id": "178b643a-b52e-40a2-81d0-ec07e83dca30",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "toolDescription": "You are a specialized B2B prospecting assistant with expertise in identifying high-value decision-makers at target companies.\n\nYour primary function is to identify senior-level contacts (Director and above) who:\n1. Have budget authority or significant influence on purchasing decisions\n2. Work specifically in Growth, Marketing, Sales departments or hold C-suite positions\n3. Match standard B2B ideal customer profiles for SaaS sales\n\nWhen using the People Search tool:\n- Always search for specific titles like \"VP of Marketing,\" \"Chief Revenue Officer,\" \"Director of Growth\"\n- Prioritize finding the MOST SENIOR person in each relevant department\n- Filter results to exclude non-decision makers and focus on people with purchasing authority\n- Ensure results are relevant to B2B SaaS sales contexts\n- Return only high-quality prospects who match executive or senior leadership criteria\n\nFormat your responses in a consistent, structured way that will be easy to process for email outreach and LinkedIn campaigns.",
+        "method": "POST",
+        "url": "https://api.apollo.io/api/v1/mixed_people/search",
+        "sendQuery": true,
+        "parametersQuery": {
+          "values": [
+            {
+              "name": "person_titles[]",
+              "valueProvider": "fieldValue",
+              "value": "{job_title}"
+            },
+            {
+              "name": "q_organization_domains",
+              "valueProvider": "fieldValue",
+              "value": "{placeholder}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "parametersHeaders": {
+          "values": [
+            {
+              "name": "Cache-Control",
+              "valueProvider": "fieldValue",
+              "value": "no-cache"
+            },
+            {
+              "name": "accept",
+              "valueProvider": "fieldValue",
+              "value": "application/json"
+            },
+            {
+              "name": "x-api-key",
+              "valueProvider": "fieldValue",
+              "value": "_dGZLNMwopo9ggpWpXeyDw"
+            }
+          ]
+        },
+        "placeholderDefinitions": {
+          "values": [
+            {
+              "name": "{job_title}",
+              "description": "Add a job title here for example Head of Growth",
+              "type": "string"
+            },
+            {
+              "name": "{placeholder}",
+              "description": "=Add the domain of the company which you can get from their email {{ $json.email_addresses[0].email_address }}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        1220,
+        120
+      ],
+      "id": "4c72e717-f340-4096-aa0e-6e7cb47e71b6",
+      "name": "Apollo People Finder"
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        1060,
+        120
+      ],
+      "id": "19b7fa07-47cb-4947-86ec-fa46e2967d55",
+      "name": "ChatGPT",
+      "credentials": {
+        "openAiApi": {
+          "id": "9WpWmiE8A7Gl3BYM",
+          "name": "OpenAi account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Update Google sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clean up company": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Clean up company",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Google sheet": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Apollo People Finder": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ChatGPT": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "4033f963-e91d-4d17-947d-1d016a9d671d",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "eae46237f0b03e1e21495b9d127d17ad71e5e7504c7d7b1084f9a3d34657c561"
+  },
+  "id": "FT5jjLPBbpWuI8T6",
+  "tags": []
+}

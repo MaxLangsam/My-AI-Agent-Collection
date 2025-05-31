@@ -1,0 +1,842 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -120,
+        100
+      ],
+      "id": "04c9e7db-433a-4cb8-8dfa-981eaed73e09",
+      "name": "Telegram Trigger",
+      "webhookId": "7eb88904-fbaf-4390-9569-7c6b04280d64",
+      "credentials": {
+        "telegramApi": {
+          "id": "xoVHEIRfl97ZpNtc",
+          "name": "Telegram account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "fileId": "={{ $json.message.voice.file_id }}"
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        60,
+        100
+      ],
+      "id": "ac262644-9cb2-446a-9f2e-718b4d136a9f",
+      "name": "Telegram",
+      "credentials": {
+        "telegramApi": {
+          "id": "xoVHEIRfl97ZpNtc",
+          "name": "Telegram account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "operation": "transcribe",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.7,
+      "position": [
+        220,
+        100
+      ],
+      "id": "99fa18df-6d04-4738-9299-66d4b4c9322e",
+      "name": "OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "RyfN7MeoBsZCvOPq",
+          "name": "OpenAi account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.text }}",
+        "options": {
+          "systemMessage": "=You will reciece a list of instructions on what to execute. \n\nThe current date is: {{$now}}\n\n**[ROLE]**  \n- You are the **Smart Assistant Agent**.  \n- Your main responsibility is to efficiently manage online searches, appointments, knowledge retrieval, and email communications.  \n\n---\n\n**[CONTEXT]**  \n- **System environment:** Operates in a multi-agent system designed for task automation, knowledge management, and scheduling.  \n- **Known details:** Access to internet search, appointment creation and retrieval, a structured database for knowledge queries, and email composition and sending.  \n\n---\n\n**[TASK]**  \n- **Goal:**  \n  - Perform internet searches for requested information.  \n  - Create, check, and manage user appointments.  \n  - Retrieve relevant information from a structured knowledge database.  \n  - Compose and send emails as per user instructions.  \n\n- **Constraints:**  \n  - Ensure responses are accurate, concise, and relevant.  \n  - Maintain appointment details securely and provide access upon request.  \n  - Database search must retrieve only verified information.  \n  - Emails should follow professional formatting and etiquette.  \n\n- **Style:**  \n  - Professional and clear tone.  \n  - Formatting should be structured and easy to read.  \n  - Appointment responses should be structured with time, date, and location details.  \n  - Emails should include a proper salutation, body, and closing.  \n\n- **Output format:**  \n  - **For search results:** Summary + relevant links (if applicable).  \n  - **For appointments:** Structured format (Date, Time, Event, Location, Notes).  \n  - **For database searches:** Relevant extracted information in plain text.  \n  - **For emails:** Well-formatted email body ready for sending.  \n\n---\n\n**[COLLABORATION]**  \n- **Other agents:**  \n  - Calendar Manager for scheduling.  \n  - Database Engine for structured knowledge retrieval.  \n  - Email Service for sending communications.  \n\n- **Interaction:**  \n  - When retrieving knowledge, cross-check database before searching online.  \n  - When creating appointments, verify scheduling conflicts before confirmation.  \n  - When sending emails, confirm recipient details and content integrity.  \n\n---\n\n**[EXAMPLES]**  \n\n- **Good response example:**  \n  *User Request:* \"Find the latest AI trends for 2025.\"  \n  *Response:*  \n  _\"Here are the latest AI trends for 2025 based on my search:_  \n  - AI-powered automation in businesses.  \n  - Enhanced multimodal AI capabilities.  \n  - Real-time AI translation improvements.  \n  _Full article: [Link].\"_  \n\n- **Bad response example:**  \n  _\"AI is cool and growing fast. You can Google it.\"_  \n\n---\n\n**[FINAL REQUIREMENTS]**  \n- **QA checks:**  \n  - Ensure proper spelling, grammar, and factual accuracy.  \n  - Verify appointment details before confirmation.  \n  - Validate email formatting before sending.  \n\n- **Ethical guidelines:**  \n  - Do not retrieve or store sensitive personal data without consent.  \n  - Avoid biased or misleading information in search results.  \n  - Maintain confidentiality in emails and appointment scheduling.  \n\n- **Error handling:**  \n  - If an internet search fails, provide a fallback response and suggest alternative ways to find information.  \n  - If an appointment conflict occurs, suggest rescheduling options.  \n  - If an email fails to send, notify the user with troubleshooting steps.  \n\n\nwhen adding to notion to-do list enter the following information:\n\nid:189e8d6b-d137-8182-a141-f33e2f676eec\nname:Buy coffee\nurl:https://www.notion.so/Buy-coffee-189e8d6bd1378182a141f33e2f676eec\nproperty_priority:[null]\nproperty_when:[null]\nproperty_action:Buy coffee\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        560,
+        100
+      ],
+      "id": "cbc47837-ac99-4ea5-909f-e67feeaa3e50",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        300,
+        360
+      ],
+      "id": "9af44f5e-504f-4130-8df3-d7059b7f0983",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "RyfN7MeoBsZCvOPq",
+          "name": "OpenAi account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Telegram Trigger').item.json.message.chat.id }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        340,
+        520
+      ],
+      "id": "336ee3e3-c741-414b-916f-3b358182236b",
+      "name": "Window Buffer Memory"
+    },
+    {
+      "parameters": {
+        "chatId": "7058971166",
+        "text": "={{ $json.output }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1200,
+        100
+      ],
+      "id": "11c89d17-562c-4b35-b3a7-266f9f8c34f0",
+      "name": "Telegram1",
+      "credentials": {
+        "telegramApi": {
+          "id": "xoVHEIRfl97ZpNtc",
+          "name": "Telegram account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolSerpApi",
+      "typeVersion": 1,
+      "position": [
+        480,
+        560
+      ],
+      "id": "edc2ee51-93af-4596-af50-0c8c42124a8f",
+      "name": "SerpAPI",
+      "credentials": {
+        "serpApi": {
+          "id": "XY8fGvcyoTv8XEPd",
+          "name": "SerpAPI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "jack@aiautomationswithjack.com",
+          "mode": "list",
+          "cachedResultName": "jack@aiautomationswithjack.com"
+        },
+        "start": "={{ $fromAI(\"start\", \"date to start the event\") }}",
+        "end": "={{ $fromAI(\"end\", \"date to finish the event\") }}",
+        "additionalFields": {
+          "attendees": [
+            "={{ $fromAI(\"atenedees\", \"who's coming to the event\") }}"
+          ],
+          "summary": "={{ $fromAI(\"summary\", \"what the event sis about\") }}"
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.2,
+      "position": [
+        1020,
+        480
+      ],
+      "id": "4775a4a9-d1f6-416f-a017-a9edf8a4c748",
+      "name": "Google Calendar",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "1QWn1sJt0hVNu991",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "filters": {}
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.1,
+      "position": [
+        1160,
+        440
+      ],
+      "id": "3a950a5d-f917-4cae-842b-a73df467d645",
+      "name": "Gmail",
+      "webhookId": "95201afd-672c-4d0a-9fa6-4359637a6dba",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "VARz8tBAjDobMUh6",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "triggerOn": "specificFolder",
+        "folderToWatch": {
+          "__rl": true,
+          "value": "1cCHxvYtMFmaKy_bqF5JiFskMzk_JUeo8",
+          "mode": "list",
+          "cachedResultName": "N8N Agent",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1cCHxvYtMFmaKy_bqF5JiFskMzk_JUeo8"
+        },
+        "event": "fileCreated",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [
+        80,
+        860
+      ],
+      "id": "c2fece5f-9ab8-4057-9766-9920dafcd7d6",
+      "name": "Google Drive Trigger",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "PCbXhLV0isM3KT30",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        300,
+        860
+      ],
+      "id": "f8f1e8d9-d499-42c9-9b88-3e8b64750d26",
+      "name": "Google Drive",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "PCbXhLV0isM3KT30",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "n8n",
+          "mode": "list",
+          "cachedResultName": "n8n"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1,
+      "position": [
+        520,
+        860
+      ],
+      "id": "2261f7d5-44c6-4fd0-b176-b6cda3588508",
+      "name": "Pinecone Vector Store",
+      "credentials": {
+        "pineconeApi": {
+          "id": "r7v5WglCWZEhdNFl",
+          "name": "PineconeApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.1,
+      "position": [
+        520,
+        1080
+      ],
+      "id": "0e012a8f-f46b-4fa6-b07e-bb366da57f79",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "iDlCBwOewuXIWcZ5",
+          "name": "OpenAi account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "dataType": "binary",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1,
+      "position": [
+        660,
+        1080
+      ],
+      "id": "0f1bcd6c-1ba4-4b05-807f-9cfa6c3c8784",
+      "name": "Default Data Loader"
+    },
+    {
+      "parameters": {
+        "chunkOverlap": 200,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
+      "typeVersion": 1,
+      "position": [
+        760,
+        1300
+      ],
+      "id": "c612a4d5-12fe-4646-b727-3734eef5fefd",
+      "name": "Recursive Character Text Splitter"
+    },
+    {
+      "parameters": {
+        "name": "VectorStore",
+        "description": "Vector database with information"
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolVectorStore",
+      "typeVersion": 1,
+      "position": [
+        1640,
+        200
+      ],
+      "id": "04f3b40d-3749-465d-9dab-ef84399774d5",
+      "name": "Vector Store Tool"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        1980,
+        340
+      ],
+      "id": "5e66d3ab-7043-4590-bd3d-e79a2f33f4c7",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "iDlCBwOewuXIWcZ5",
+          "name": "OpenAi account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# AI Agent 🤖",
+        "height": 700,
+        "width": 1560
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -180,
+        0
+      ],
+      "id": "d3cc35b1-0a7f-4bbf-be29-95c2b1f69c5d",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "# Upload Vector 💎",
+        "height": 740,
+        "width": 1320,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        760
+      ],
+      "id": "2628e3a3-8784-490f-83fc-5997a58de355",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "n8n",
+          "mode": "list",
+          "cachedResultName": "n8n"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1,
+      "position": [
+        1580,
+        380
+      ],
+      "id": "7a8b4f49-7692-43e7-8625-e5ef5a4d1fa3",
+      "name": "Pinecone Vector Store1",
+      "credentials": {
+        "pineconeApi": {
+          "id": "r7v5WglCWZEhdNFl",
+          "name": "PineconeApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.1,
+      "position": [
+        1720,
+        560
+      ],
+      "id": "137f2966-5440-4af3-9556-0cf7fa5e5128",
+      "name": "Embeddings OpenAI1",
+      "credentials": {
+        "openAiApi": {
+          "id": "iDlCBwOewuXIWcZ5",
+          "name": "OpenAi account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# Retrieval 👀",
+        "height": 600,
+        "width": 720,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1500,
+        80
+      ],
+      "id": "e25fe3d1-ccfd-41e1-8aca-11be2d278a42",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "jack@aiautomationswithjack.com",
+          "mode": "list",
+          "cachedResultName": "jack@aiautomationswithjack.com"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.2,
+      "position": [
+        620,
+        580
+      ],
+      "id": "11b551fb-4e83-4933-a0b3-3580dd730d8d",
+      "name": "Google Calendar1",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "1QWn1sJt0hVNu991",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $fromAI(\"to\", \"the recipient\") }}",
+        "subject": "={{ $fromAI(\"subject\", \"subject of the email\") }}",
+        "message": "={{ $fromAI(\"message\", \"the actual email body\") }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.1,
+      "position": [
+        1260,
+        340
+      ],
+      "id": "0ff8ef19-eff4-42f4-9a07-38c16226447a",
+      "name": "Gmail1",
+      "webhookId": "08677d50-d61a-4220-99d9-7dae87727c21",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "VARz8tBAjDobMUh6",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "189e8d6b-d137-80cb-8629-c0f613df29eb",
+          "mode": "list",
+          "cachedResultName": "DeepSeek",
+          "cachedResultUrl": "https://www.notion.so/189e8d6bd13780cb8629c0f613df29eb"
+        },
+        "title": "={{ $fromAI('placeholder_name') }}",
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "💎 Script|rich_text",
+              "textContent": "={{ $fromAI(\"script\", \"create a script\") }}"
+            },
+            {
+              "key": "🔥 Status|status",
+              "statusValue": "Not started"
+            },
+            {
+              "key": "🚀 Action|title",
+              "title": "={{ $fromAI(\"action\", \"what needs to be done\") }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notionTool",
+      "typeVersion": 2.2,
+      "position": [
+        740,
+        540
+      ],
+      "id": "966b4361-4e34-406c-9542-c3b287d176a7",
+      "name": "Notion",
+      "credentials": {
+        "notionApi": {
+          "id": "KSwMXlDr5Qkew17V",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "get",
+        "pageId": {
+          "__rl": true,
+          "value": "https://www.notion.so/DeepSeek-to-do-189e8d6bd13780e78323e83c8a900fab?showMoveTo=true&saveParent=true",
+          "mode": "url"
+        }
+      },
+      "type": "n8n-nodes-base.notionTool",
+      "typeVersion": 2.2,
+      "position": [
+        880,
+        540
+      ],
+      "id": "647ddb74-50b8-4de3-a798-4860f3de562a",
+      "name": "Notion1",
+      "credentials": {
+        "notionApi": {
+          "id": "KSwMXlDr5Qkew17V",
+          "name": "Notion account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram": {
+      "main": [
+        [
+          {
+            "node": "OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Window Buffer Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Telegram1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SerpAPI": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Calendar": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive Trigger": {
+      "main": [
+        [
+          {
+            "node": "Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive": {
+      "main": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Recursive Character Text Splitter": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Vector Store Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Vector Store Tool",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pinecone Vector Store1": {
+      "ai_vectorStore": [
+        [
+          {
+            "node": "Vector Store Tool",
+            "type": "ai_vectorStore",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI1": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Pinecone Vector Store1",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Calendar1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "ce38e1c6-d594-44d7-99f8-60a06dc89cb6",
+  "meta": {
+    "instanceId": "1ad5536c7c55ace0cd2d13b5ee509a9d5436e829bf5adf69ed3e58c359b43097"
+  },
+  "id": "QVlxkmhku0q7dp9j",
+  "tags": []
+}
