@@ -21,7 +21,7 @@ Best Practices: A quick-reference text file outlining high-level strategies for 
 
 Node Structure for LLMs: A reference diagram (PDF) showing how to structure n8n nodes to optimally insert information into a large language model (LLM), especially for Retrieval-Augmented Generation (RAG) setups.
 
-These documents are valuable for iterating, evaluating, and refining your AI workflows with clarity and consistency. designed to integrate seamlessly with n8n, an open-source workflow automation platform. Each agent is tailored to perform specific tasks such as job scraping, sales outreach, personal assistance, and information retrieval.
+### These documents are valuable for iterating, evaluating, and refining your AI workflows with clarity and consistency. designed to integrate seamlessly with n8n, an open-source workflow automation platform. Each agent is tailored to perform specific tasks such as job scraping, sales outreach, personal assistance, and information retrieval.
 ---
 
 ## Linkedin Job Scraping Agent
