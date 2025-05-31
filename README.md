@@ -13,6 +13,15 @@
 
 This repository contains a collection of AI-powered agents designed to integrate seamlessly with [n8n](https://n8n.io/), an open-source workflow automation platform. Each agent is tailored to perform specific tasks such as job scraping, sales outreach, personal assistance, and information retrieval.
 
+In addition to the agents, this repository includes supporting documents to enhance your understanding and development process:
+
+Prompting AI Voice Agents: A comprehensive guide to designing effective system prompts for voice-based AI agents. Covers structure, error handling, tone, and formatting for clarity and performance.
+
+Best Practices: A quick-reference text file outlining high-level strategies for building reliable and efficient n8n agents.
+
+Node Structure for LLMs: A reference diagram (PDF) showing how to structure n8n nodes to optimally insert information into a large language model (LLM), especially for Retrieval-Augmented Generation (RAG) setups.
+
+These documents are valuable for iterating, evaluating, and refining your AI workflows with clarity and consistency. designed to integrate seamlessly with n8n, an open-source workflow automation platform. Each agent is tailored to perform specific tasks such as job scraping, sales outreach, personal assistance, and information retrieval.
 ---
 
 ## Linkedin Job Scraping Agent
