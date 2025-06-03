@@ -23,7 +23,7 @@ Node Structure for LLMs: A reference diagram (PDF) showing how to structure n8n 
 
 ### These documents are valuable for iterating, evaluating, and refining your AI workflows with clarity and consistency. designed to integrate seamlessly with n8n, an open-source workflow automation platform. Each agent is tailored to perform specific tasks such as job scraping, sales outreach, personal assistance, and information retrieval.
 ---
-
+# Warning: these agents base frameworks, and will have do be edited for case-by-case needs.
 ## Linkedin Job Scraping Agent
 
 **Description:**
